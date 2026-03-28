@@ -1,222 +1,121 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>三鷹駅南口 バス業務システム</title>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>三鷹駅南口 バス業務システム rebuilt</title>
 <style>
-:root{--bg:#f5f7fa;--card:#fff;--line:#d7dce2;--text:#111827;--muted:#6b7280;--accent:#2563eb;--warn:#fff4cc;--alert:#ffe3e3;--note:#ffedd5;--ok:#e8faee}
-*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-.app{max-width:980px;margin:0 auto;padding:12px 12px 90px}.top{position:sticky;top:0;background:rgba(245,247,250,.96);backdrop-filter:blur(8px);padding:10px 0;z-index:20}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.spread{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.title{font-size:22px;font-weight:900;margin:0}.sub{font-size:13px;color:var(--muted)}
-input,select,textarea,button{font:inherit} input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff} textarea{min-height:84px;resize:vertical}
-button{padding:10px 14px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:800} button.secondary{background:#e5e7eb;color:#111827} button.warn{background:#b45309}
-.big{font-size:30px;font-weight:900}.tag{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:800;background:#f9fafb}.ok{background:var(--ok)}.warnbg{background:var(--warn)}.alertbg{background:var(--alert)}.notebg{background:var(--note)}
-.grid{display:grid;gap:10px}.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:repeat(3,1fr)} .list-table{overflow:auto}
-table{width:100%;border-collapse:collapse;font-size:14px} th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap} th{position:sticky;top:0;background:#fff;z-index:1}
-.run-card{border-left:8px solid #3b82f6}.run-card.warn{border-left-color:#f59e0b}.run-card.alert{border-left-color:#ef4444}.run-card.note{border-left-color:#f97316}.run-card.gray{border-left-color:#9ca3af}
-.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--line);background:#fff;display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:50}.tab{padding:10px 4px 12px;text-align:center;border:none;background:#fff;color:#4b5563;font-size:11px}.tab.active{color:var(--accent);font-weight:900}
-.hidden{display:none}.small{font-size:12px}.mono{font-variant-numeric:tabular-nums}.pill{display:inline-block;padding:5px 10px;border-radius:999px;background:#e0edff;border:1px solid #bfd3ff;font-size:12px;font-weight:800}
-@media(max-width:700px){.two,.three{grid-template-columns:1fr} .big{font-size:24px}}
-</style>
-</head>
-<body>
-<div class="app">
-  <div class="top">
-    <h1 class="title">三鷹駅南口 バス業務システム</h1>
-    <div id="meta" class="sub"></div>
-  </div>
+:root{--bg:#f4f6f8;--card:#fff;--line:#d6dbe1;--text:#111827;--muted:#6b7280;--blue:#2563eb;--ok:#eaf8ee;--warn:#fff6d6;--alert:#ffe7e7;--note:#fff0de;--chip:#eef3ff}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+.app{max-width:1100px;margin:0 auto;padding:12px 12px 88px}.top{position:sticky;top:0;z-index:20;background:rgba(244,246,248,.96);backdrop-filter:blur(8px);padding:10px 0}
+h1{margin:0;font-size:21px;font-weight:900}.sub{font-size:13px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.spread{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.grid{display:grid;gap:10px}.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}
+input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff}textarea{min-height:120px;resize:vertical}
+button{border:none;border-radius:12px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:800}button.secondary{background:#e5e7eb;color:#111827}button.warn{background:#b45309}button.danger{background:#b91c1c}
+.big{font-size:28px;font-weight:900}.small{font-size:12px}.tag{display:inline-block;padding:4px 8px;border-radius:999px;background:#f9fafb;border:1px solid var(--line);font-size:12px;font-weight:800}.tag.ok{background:var(--ok)}.tag.warn{background:var(--warn)}.tag.alert{background:var(--alert)}.tag.note{background:var(--note)}.tag.chip{background:var(--chip)}
+.list-table{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;vertical-align:top}th{background:#fff;position:sticky;top:0;z-index:1}
+.run-card{border-left:8px solid #3b82f6}.run-card.warn{border-left-color:#f59e0b}.run-card.alert{border-left-color:#ef4444}.run-card.note{border-left-color:#f97316}.run-card.gray{border-left-color:#9ca3af}.hidden{display:none}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:40}.tab{border:none;background:#fff;padding:10px 4px 12px;color:#4b5563;font-size:11px}.tab.active{color:var(--blue);font-weight:900}
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:8px;white-space:pre-wrap}.help{border:1px dashed #f59e0b;background:#fffaf0;border-radius:12px;padding:10px}.success{border:1px dashed #16a34a;background:#f0fdf4;border-radius:12px;padding:10px}
+@media(max-width:720px){.grid.two,.grid.three{grid-template-columns:1fr}.big{font-size:24px}}
+</style></head><body>
+<div class="app"><div class="top"><h1>三鷹駅南口 バス業務システム</h1><div id="meta" class="sub"></div></div>
 
-  <section id="homeView">
-    <div class="card">
-      <div class="spread">
-        <div>
-          <div class="row"><span class="pill">一覧/カード切替あり</span><span class="pill">リアルタイム更新</span></div>
-          <div class="sub" style="margin-top:8px">20分以内の 発車 / 到着 / 回送 をまとめて表示</div>
-        </div>
-        <div class="row">
-          <select id="windowMin" onchange="renderAll()" style="width:auto"><option value="20">20分</option><option value="30">30分</option><option value="60">60分</option></select>
-          <select id="flowFilter" onchange="renderAll()" style="width:auto"><option value="all">全部</option><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select>
-          <select id="viewMode" onchange="renderHome()" style="width:auto"><option value="table">一覧</option><option value="cards">カード</option></select>
-        </div>
-      </div>
-      <div class="row" style="margin-top:8px">
-        <input id="globalQuery" placeholder="検索: 行先 / 路線 / ダイヤ / 車両 / 運転手" oninput="renderAll()" />
-        <button class="secondary" onclick="loadBootstrap()">再読込</button>
-      </div>
-    </div>
-    <div class="card"><div class="grid three" id="stats"></div></div>
-    <div class="card"><div id="homeBody"></div></div>
-    <div class="card"><div class="spread"><b>未確定一覧</b><span class="small sub">OCRで読めなかった箇所</span></div><div id="unknownList"></div></div>
-  </section>
+<section id="view-home">
+<div class="card"><div class="spread"><div><div class="row"><span class="tag chip">再構築版</span><span class="tag chip">OCR貼り付け対応</span><span class="tag chip">勤務表 × 時刻表 結合</span></div><div class="sub" style="margin-top:8px">基本は一覧表示。20分以内表示は絞り込みで使う。</div></div>
+<div class="row"><select id="filterWindow" onchange="renderAll()" style="width:auto"><option value="all">全部</option><option value="20">20分以内</option><option value="30">30分以内</option><option value="60">60分以内</option></select>
+<select id="filterFlow" onchange="renderAll()" style="width:auto"><option value="all">全部</option><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select>
+<select id="filterView" onchange="renderHome()" style="width:auto"><option value="table">一覧</option><option value="cards">カード</option></select></div></div>
+<div class="row" style="margin-top:8px"><input id="globalSearch" placeholder="検索: 時刻 / 乗り場 / 路線 / 行先 / duty / 車両 / 運転手" oninput="renderAll()"><button class="secondary" onclick="seedDemo()">見本に戻す</button><button class="secondary" onclick="exportData()">JSON書き出し</button></div></div>
+<div class="card"><div class="grid three" id="stats"></div></div>
+<div class="card"><div id="homeBody"></div></div>
+<div class="card"><div class="spread"><b>未確定一覧</b><span class="small sub">OCRで読めなかった箇所 / 自動推測に自信が低い箇所</span></div><div id="unknownBody"></div></div>
+</section>
 
-  <section id="searchView" class="hidden">
-    <div class="card"><input id="searchQ" placeholder="行先 / 運転手 / 車両 / ダイヤ番号" oninput="renderSearch()" /></div>
-    <div id="searchBody"></div>
-  </section>
+<section id="view-import" class="hidden">
+<div class="card"><b>OCR取込</b><div class="sub" style="margin-top:6px">iPhoneで文字抽出した結果をここに貼る。画像アップロードは保存だけ、解析は今はテキスト貼り付けを主役にする。</div>
+<div class="grid two" style="margin-top:10px"><div><label class="small">運行日</label><input id="importDate" value="2026-03-28"></div><div><label class="small">曜日種別</label><select id="importService"><option value="weekday">平日</option><option value="saturday" selected>土曜</option><option value="holiday">休日</option></select></div></div>
+<div class="grid two"><div><label class="small">入力種別</label><select id="importKind"><option value="duty">勤務表 OCR</option><option value="timetable">時刻表 OCR</option><option value="both">両方混在</option></select></div><div><label class="small">画像保存（任意）</label><input id="importImage" type="file" accept="image/*" multiple></div></div>
+<div><label class="small">OCRテキスト貼り付け</label><textarea id="ocrText" placeholder="iPhoneで抽出した文字をそのまま貼る。整形しなくてよい。"></textarea></div>
+<div class="row"><button onclick="parseOCR()">AI風に解析して取込</button><button class="secondary" onclick="clearOCR()">消す</button></div></div>
+<div class="card"><b>解析結果プレビュー</b><div class="sub" style="margin-top:6px">取込前に duty 抽出結果と時刻表抽出結果を分けて見る。</div>
+<div class="grid two" style="margin-top:10px"><div><div class="small">勤務表抽出</div><div id="previewDuty" class="code"></div></div><div><div class="small">時刻表抽出</div><div id="previewRuns" class="code"></div></div></div>
+<div class="row" style="margin-top:10px"><button onclick="commitParsed()">この内容を保存</button></div></div>
+<div class="card"><b>固定ルール</b><div class="code">乗り場:
+2番 = 53/56/営業所
+3番 = 57/65/66
+5番 = 51
+6番 = 52/60
+7番 = 54/61/62
+8番 = 55/58/59/63
 
-  <section id="updateView" class="hidden">
-    <div class="card">
-      <b>便のリアルタイム変更</b>
-      <div class="grid two" style="margin-top:10px">
-        <div><label class="small">対象便</label><select id="editRun"></select></div>
-        <div><label class="small">運行日</label><input id="opDate" /></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">時刻</label><input id="fTime" placeholder="08:46" /></div>
-        <div><label class="small">区分</label><select id="fFlow"><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">乗り場/場所</label><input id="fStand" /></div>
-        <div><label class="small">路線</label><input id="fRoute" /></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">行先</label><input id="fDestination" /></div>
-        <div><label class="small">ダイヤ番号</label><input id="fDuty" /></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">車両番号</label><input id="fBus" /></div>
-        <div><label class="small">ナンバー</label><input id="fPlate" /></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">運転手</label><input id="fDriver" /></div>
-        <div><label class="small">状態</label><select id="fStatus"><option>定刻</option><option>やや遅れ</option><option>遅れ</option><option>注意</option><option>未確定</option></select></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">混雑</label><select id="fCrowd"><option>不明</option><option>空き</option><option>普通</option><option>やや混雑</option><option>混雑</option></select></div>
-        <div><label class="small">更新者</label><input id="fBy" value="manual" /></div>
-      </div>
-      <div><label class="small">メモ</label><textarea id="fMemo"></textarea></div>
-      <div class="row"><button onclick="submitUpdate()">変更を反映</button><button class="secondary" onclick="loadRunToForm()">選択便を読み込み</button></div>
-    </div>
+行先略号:
+無印=調布駅北口 / 新=新小金井駅 / 営=武蔵境営業所 / 植=神代植物公園
 
-    <div class="card">
-      <b>未確定を追加</b>
-      <div class="grid two" style="margin-top:10px">
-        <div><label class="small">関連便</label><select id="uRun"></select></div>
-        <div><label class="small">項目</label><select id="uField"><option value="time">時刻</option><option value="duty_no">ダイヤ番号</option><option value="driver">運転手</option><option value="bus_no">車両番号</option><option value="plate_no">ナンバー</option><option value="destination">行先</option><option value="other">その他</option></select></div>
-      </div>
-      <div class="grid two">
-        <div><label class="small">読めた断片</label><input id="uRaw" /></div>
-        <div><label class="small">優先度</label><select id="uPriority"><option>高</option><option>中</option><option>低</option></select></div>
-      </div>
-      <div><label class="small">メモ</label><textarea id="uNote"></textarea></div>
-      <button class="warn" onclick="submitUnknown()">未確定として追加</button>
-    </div>
-  </section>
+色/注記:
+赤=出庫（前運用なし）
+黄色の鷹XX=前運用 route</div></div></section>
 
-  <section id="addView" class="hidden">
-    <div class="card">
-      <b>新しい便を追加</b>
-      <div class="sub" style="margin:8px 0">臨時の回送や差し込み便も追加できる</div>
-      <div class="grid two">
-        <div><label class="small">service_type</label><select id="nService"><option value="weekday">weekday</option><option value="saturday">saturday</option><option value="holiday">holiday</option></select></div>
-        <div><label class="small">op_date</label><input id="nOpDate" /></div>
-      </div>
-      <div class="grid two"><div><label class="small">時刻</label><input id="nTime" /></div><div><label class="small">区分</label><select id="nFlow"><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select></div></div>
-      <div class="grid two"><div><label class="small">乗り場/場所</label><input id="nStand" /></div><div><label class="small">路線</label><input id="nRoute" /></div></div>
-      <div class="grid two"><div><label class="small">行先</label><input id="nDestination" /></div><div><label class="small">ダイヤ番号</label><input id="nDuty" /></div></div>
-      <div class="grid two"><div><label class="small">車両番号</label><input id="nBus" /></div><div><label class="small">ナンバー</label><input id="nPlate" /></div></div>
-      <div class="grid two"><div><label class="small">運転手</label><input id="nDriver" /></div><div><label class="small">メモ</label><input id="nMemo" /></div></div>
-      <button onclick="submitAddRun()">便を追加</button>
-    </div>
-  </section>
+<section id="view-search" class="hidden"><div class="card"><input id="searchInput" placeholder="duty / 車両 / 運転手 / 路線 / 行先" oninput="renderSearch()"></div><div id="searchBody"></div></section>
 
-  <section id="guideView" class="hidden">
-    <div class="card"><b>使い方</b><div class="sub" style="margin-top:8px">1. GAS_API_BASE を自分のApps ScriptウェブアプリURLに変える 2. iPhoneで開く 3. ホーム画面に追加</div></div>
-  </section>
+<section id="view-edit" class="hidden">
+<div class="card"><b>便の修正</b>
+<div class="grid two" style="margin-top:10px"><div><label class="small">対象便</label><select id="editRunSelect"></select></div><div><label class="small">運行日</label><input id="editDate"></div></div>
+<div class="grid two"><div><label class="small">時刻</label><input id="eTime"></div><div><label class="small">区分</label><select id="eFlow"><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select></div></div>
+<div class="grid two"><div><label class="small">乗り場/場所</label><input id="eStand"></div><div><label class="small">路線</label><input id="eRoute"></div></div>
+<div class="grid two"><div><label class="small">行先</label><input id="eDest"></div><div><label class="small">duty_no</label><input id="eDuty"></div></div>
+<div class="grid two"><div><label class="small">前運用 route</label><input id="eFromRoute"></div><div><label class="small">前運用 stand</label><input id="eFromStand"></div></div>
+<div class="grid two"><div><label class="small">車両</label><input id="eBus"></div><div><label class="small">運転手</label><input id="eDriver"></div></div>
+<div class="grid two"><div><label class="small">開始時刻</label><input id="eSignOn"></div><div><label class="small">終了時刻</label><input id="eSignOff"></div></div>
+<div class="grid two"><div><label class="small">状態</label><select id="eStatus"><option>定刻</option><option>やや遅れ</option><option>遅れ</option><option>注意</option><option>未確定</option></select></div><div><label class="small">混雑</label><select id="eCrowd"><option>不明</option><option>空き</option><option>普通</option><option>やや混雑</option><option>混雑</option></select></div></div>
+<div><label class="small">メモ</label><textarea id="eMemo"></textarea></div><div class="row"><button onclick="saveRunEdit()">保存</button><button class="secondary" onclick="loadRunIntoForm()">読み込み直す</button></div></div>
+<div class="card"><b>未確定を追加</b>
+<div class="grid two" style="margin-top:10px"><div><label class="small">関連便</label><select id="uRun"></select></div><div><label class="small">項目</label><select id="uField"><option>driver</option><option>bus_no</option><option>duty_no</option><option>time</option><option>destination</option><option>other</option></select></div></div>
+<div class="grid two"><div><label class="small">OCR断片</label><input id="uRaw"></div><div><label class="small">確信度</label><select id="uConfidence"><option>低</option><option>中</option><option>高</option></select></div></div>
+<div><label class="small">メモ</label><textarea id="uNote"></textarea></div><button class="warn" onclick="addUnknown()">未確定追加</button></div>
+</section>
+
+<section id="view-data" class="hidden"><div class="card"><b>データ管理</b><div class="row" style="margin-top:8px"><button class="secondary" onclick="saveState()">保存</button><button class="secondary" onclick="importJsonPrompt()">JSON読み込み</button><button class="danger" onclick="clearAllData()">全部消す</button></div></div><div class="card"><b>内部データ</b><div id="debugJson" class="code"></div></div></section>
+
+<section id="view-guide" class="hidden"><div class="card"><b>この版で変えたこと</b><ul><li>20分以内だけではなく、まず全部を一覧表示</li><li>OCR取込タブを追加</li><li>勤務表の duty_no と時刻表の duty_no を結合</li><li>前運用 route / stand を持てるように変更</li><li>未確定を別管理</li></ul></div></section>
 </div>
 
-<nav class="tabs">
-  <button class="tab active" data-view="homeView">ホーム</button>
-  <button class="tab" data-view="searchView">検索</button>
-  <button class="tab" data-view="updateView">更新</button>
-  <button class="tab" data-view="addView">追加</button>
-  <button class="tab" data-view="guideView">ガイド</button>
-</nav>
+<nav class="tabs"><button class="tab active" data-view="view-home">ホーム</button><button class="tab" data-view="view-import">OCR取込</button><button class="tab" data-view="view-search">検索</button><button class="tab" data-view="view-edit">修正</button><button class="tab" data-view="view-data">データ</button><button class="tab" data-view="view-guide">ガイド</button></nav>
 
 <script>
-const GAS_API_BASE = 'https://script.google.com/macros/s/AKfycbwRg04J6iTSrrjY1rGo4aYVfMBDbte2wtbamJTsOYN9A-QbwBoo0Etch1H1jWdsQSJM/exec';
-let state = { op_date:'', service_type:'saturday', runs:[], unknowns:[], guide:[] };
-let currentView = 'homeView';
-
-function qs(id){ return document.getElementById(id); }
-function esc(s){ return (s ?? '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function minutes(t){ if(!t) return 999999; const [h,m]=t.split(':').map(Number); return h*60+m; }
-function nowHM(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
-function flowLabel(f){ return f==='departure'?'発車':f==='arrival'?'到着':'回送'; }
-function cardClass(r){ if(r.unresolved_count>0||r.status==='未確定') return 'note'; if(r.status==='遅れ') return 'alert'; if(r.status==='注意'||r.status==='やや遅れ') return 'warn'; if(r.flow==='deadhead') return 'gray'; return ''; }
-async function apiGet(params){ const u=new URL(GAS_API_BASE); Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v)); const res=await fetch(u); return await res.json(); }
-async function apiPost(body){ const res=await fetch(GAS_API_BASE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return await res.json(); }
-
-async function loadBootstrap(){
-  if(!GAS_API_BASE.startsWith('http')){ alert('index.html の GAS_API_BASE をApps ScriptのURLに変えてください'); return; }
-  const today = new Date();
-  const opDate = qs('opDate').value || today.toISOString().slice(0,10);
-  const data = await apiGet({action:'bootstrap', op_date: opDate});
-  if(!data.ok){ alert(data.error||'読み込み失敗'); return; }
-  state = data;
-  qs('opDate').value = state.op_date;
-  qs('nOpDate').value = state.op_date;
-  qs('meta').textContent = `${state.op_date} / ${state.service_type} / ${nowHM()} / 取得件数 ${state.runs.length}`;
-  const opts = state.runs.map(r=>`<option value="${esc(r.run_key)}">${esc(r.time)} / ${esc(flowLabel(r.flow))} / ${esc(r.route)} / ${esc(r.destination)} / ${esc(r.duty_no)}</option>`).join('');
-  qs('editRun').innerHTML = opts; qs('uRun').innerHTML = opts;
-  loadRunToForm();
-  renderAll();
-}
-function filteredRuns(){
-  const q=(qs('globalQuery').value||'').toLowerCase(); const w=Number(qs('windowMin').value); const ff=qs('flowFilter').value; const now=minutes(nowHM());
-  return state.runs.filter(r=>{
-    const okWindow = minutes(r.time)-now >= 0 && minutes(r.time)-now <= w;
-    const okFlow = ff==='all' || r.flow===ff;
-    const blob=[r.time,r.flow,r.stand,r.route,r.destination,r.duty_no,r.bus_no,r.plate_no,r.driver,r.memo].join(' ').toLowerCase();
-    const okQ = !q || blob.includes(q);
-    return okWindow && okFlow && okQ;
-  });
-}
-function renderStats(){
-  const rows=filteredRuns();
-  const dep=rows.filter(r=>r.flow==='departure').length, arr=rows.filter(r=>r.flow==='arrival').length, dead=rows.filter(r=>r.flow==='deadhead').length, unk=state.unknowns.length;
-  qs('stats').innerHTML = [`発車|${dep}`,`到着|${arr}`,`回送|${dead}`,`未確定|${unk}`,`運行日|${state.op_date}`,`現在|${nowHM()}`].map(x=>{const[a,b]=x.split('|'); return `<div class="card" style="margin:0"><div class="small sub">${a}</div><div class="big mono">${b}</div></div>`}).join('');
-}
-function renderHome(){
-  const rows=filteredRuns();
-  if(qs('viewMode').value==='cards'){
-    qs('homeBody').innerHTML = rows.map(r=>`<div class="card run-card ${cardClass(r)}"><div class="spread"><div><div class="big mono">${esc(r.time)}</div><div class="sub">${esc(flowLabel(r.flow))}</div></div><div class="row"><span class="tag ${r.status==='遅れ'?'alertbg':r.status==='注意'?'notebg':r.status==='やや遅れ'?'warnbg':'ok'}">${esc(r.status||'定刻')}</span><span class="tag">${esc(r.crowd||'不明')}</span>${r.unresolved_count>0?`<span class="tag notebg">未確定 ${r.unresolved_count}</span>`:''}</div></div><div><b>${esc(r.stand)}</b> / ${esc(r.route)} → ${esc(r.destination)}</div><div class="sub">ダイヤ ${esc(r.duty_no||'')} / 車両 ${esc(r.bus_no||'')} / 運転手 ${esc(r.driver||'')}</div><div class="small" style="margin-top:6px">${esc(r.memo||'')}</div></div>`).join('') || '該当なし';
-  } else {
-    qs('homeBody').innerHTML = `<div class="list-table"><table><thead><tr><th>時刻</th><th>区分</th><th>場所</th><th>路線</th><th>行先</th><th>ダイヤ</th><th>車両</th><th>運転手</th><th>状態</th><th>混雑</th><th>未確定</th><th>メモ</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="mono">${esc(r.time)}</td><td>${esc(flowLabel(r.flow))}</td><td>${esc(r.stand)}</td><td>${esc(r.route)}</td><td>${esc(r.destination)}</td><td>${esc(r.duty_no||'')}</td><td>${esc(r.bus_no||'')}</td><td>${esc(r.driver||'')}</td><td>${esc(r.status||'定刻')}</td><td>${esc(r.crowd||'不明')}</td><td>${r.unresolved_count||0}</td><td>${esc(r.memo||'')}</td></tr>`).join('')}</tbody></table></div>`;
-  }
-  qs('unknownList').innerHTML = state.unknowns.length ? `<div class="list-table"><table><thead><tr><th>便</th><th>項目</th><th>断片</th><th>優先度</th><th>メモ</th></tr></thead><tbody>${state.unknowns.map(u=>`<tr><td>${esc(u.run_key)}</td><td>${esc(u.field_name)}</td><td>${esc(u.raw_text)}</td><td>${esc(u.priority)}</td><td>${esc(u.note||'')}</td></tr>`).join('')}</tbody></table></div>` : '未確定なし';
-}
-function renderSearch(){
-  const q=(qs('searchQ').value||'').toLowerCase();
-  const guide = state.guide.filter(g=>JSON.stringify(g).toLowerCase().includes(q));
-  const runs = state.runs.filter(r=>[r.time,r.route,r.destination,r.duty_no,r.bus_no,r.driver,r.memo].join(' ').toLowerCase().includes(q));
-  qs('searchBody').innerHTML = (!q?'検索語を入れてください':
-    guide.map(g=>`<div class="card"><b>${esc(g.display_name||g.keyword)}</b><div class="small">${esc(g.spot||'')}</div><div class="sub">${esc(g.note||'')}</div></div>`).join('')+
-    runs.map(r=>`<div class="card run-card ${cardClass(r)}"><b>${esc(r.time)} ${esc(flowLabel(r.flow))}</b><div>${esc(r.route)} → ${esc(r.destination)}</div><div class="small">ダイヤ ${esc(r.duty_no||'')} / 車両 ${esc(r.bus_no||'')} / 運転手 ${esc(r.driver||'')}</div></div>`).join('')
-  ) || '見つかりません';
-}
-function loadRunToForm(){
-  const key=qs('editRun').value; const r=state.runs.find(x=>x.run_key===key); if(!r) return;
-  qs('fTime').value=r.time||''; qs('fFlow').value=r.flow||'departure'; qs('fStand').value=r.stand||''; qs('fRoute').value=r.route||''; qs('fDestination').value=r.destination||''; qs('fDuty').value=r.duty_no||''; qs('fBus').value=r.bus_no||''; qs('fPlate').value=r.plate_no||''; qs('fDriver').value=r.driver||''; qs('fStatus').value=r.status||'定刻'; qs('fCrowd').value=r.crowd||'不明'; qs('fMemo').value=r.memo||'';
-}
-async function submitUpdate(){
-  const payload={action:'update_run',op_date:qs('opDate').value,run_key:qs('editRun').value,time:qs('fTime').value,flow:qs('fFlow').value,stand:qs('fStand').value,route:qs('fRoute').value,destination:qs('fDestination').value,duty_no:qs('fDuty').value,bus_no:qs('fBus').value,plate_no:qs('fPlate').value,driver:qs('fDriver').value,status:qs('fStatus').value,crowd:qs('fCrowd').value,memo:qs('fMemo').value,updated_by:qs('fBy').value||'manual'};
-  const res=await apiPost(payload); if(!res.ok){ alert(res.error||'更新失敗'); return; } alert('変更を反映した'); await loadBootstrap();
-}
-async function submitUnknown(){
-  const payload={action:'add_unknown',op_date:qs('opDate').value,run_key:qs('uRun').value,field_name:qs('uField').value,raw_text:qs('uRaw').value,priority:qs('uPriority').value,note:qs('uNote').value};
-  const res=await apiPost(payload); if(!res.ok){ alert(res.error||'追加失敗'); return; } alert('未確定に追加した'); qs('uRaw').value=''; qs('uNote').value=''; await loadBootstrap();
-}
-async function submitAddRun(){
-  const payload={action:'add_run',service_type:qs('nService').value,op_date:qs('nOpDate').value,time:qs('nTime').value,flow:qs('nFlow').value,stand:qs('nStand').value,route:qs('nRoute').value,destination:qs('nDestination').value,duty_no:qs('nDuty').value,bus_no:qs('nBus').value,plate_no:qs('nPlate').value,driver:qs('nDriver').value,memo:qs('nMemo').value};
-  const res=await apiPost(payload); if(!res.ok){ alert(res.error||'追加失敗'); return; } alert('便を追加した'); ['nTime','nStand','nRoute','nDestination','nDuty','nBus','nPlate','nDriver','nMemo'].forEach(id=>qs(id).value=''); await loadBootstrap();
-}
-function renderAll(){ renderStats(); renderHome(); renderSearch(); }
-document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{ currentView=btn.dataset.view; document.querySelectorAll('section').forEach(v=>v.classList.add('hidden')); qs(currentView).classList.remove('hidden'); document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn)); }));
-qs('editRun').addEventListener('change', loadRunToForm);
-loadBootstrap();
-</script>
-</body>
-</html>
+const STORAGE_KEY='mitaka_bus_rebuilt_v1';
+function defaultState(){return{op_date:'2026-03-28',service_type:'saturday',lastUpdated:new Date().toLocaleString('ja-JP'),
+duties:[{duty_no:'501',sign_on_a:'05:35',sign_on_b:'06:00',bus_no:'9154',driver:'熊川 武',sign_off_a:'12:33',sign_off_b:'12:48',source:'OCR'},{duty_no:'119',sign_on_a:'05:57',sign_on_b:'06:01',bus_no:'9303',driver:'角谷 我紀',sign_off_a:'12:29',sign_off_b:'12:44',source:'OCR'},{duty_no:'125',sign_on_a:'05:46',sign_on_b:'06:11',bus_no:'9412',driver:'西澤 万査弥',sign_off_a:'12:58',sign_off_b:'13:13',source:'OCR'},{duty_no:'155',sign_on_a:'06:07',sign_on_b:'06:32',bus_no:'9354',driver:'加成 和雄',sign_off_a:'13:54',sign_off_b:'14:09',source:'OCR'}],
+runs:[{run_key:'s20260328-1',op_date:'2026-03-28',service_type:'saturday',time:'06:15',flow:'departure',stand:'2',route:'56',destination:'調布駅北口',duty_no:'501',from_route:'',from_stand:'',status:'定刻',crowd:'不明',memo:''},{run_key:'s20260328-2',op_date:'2026-03-28',service_type:'saturday',time:'06:28',flow:'departure',stand:'2',route:'56',destination:'調布駅北口',duty_no:'119',from_route:'',from_stand:'',status:'定刻',crowd:'不明',memo:''},{run_key:'s20260328-3',op_date:'2026-03-28',service_type:'saturday',time:'06:33',flow:'departure',stand:'2',route:'56',destination:'新小金井駅',duty_no:'125',from_route:'52',from_stand:'6',status:'定刻',crowd:'不明',memo:'黄色の鷹52から推測'},{run_key:'s20260328-4',op_date:'2026-03-28',service_type:'saturday',time:'06:48',flow:'departure',stand:'2',route:'56',destination:'調布駅北口',duty_no:'151',from_route:'63',from_stand:'8',status:'定刻',crowd:'不明',memo:'黄色の鷹63から推測'},{run_key:'s20260328-5',op_date:'2026-03-28',service_type:'saturday',time:'06:50',flow:'departure',stand:'2',route:'56',destination:'調布駅北口',duty_no:'155',from_route:'51',from_stand:'5',status:'定刻',crowd:'不明',memo:'黄色の鷹51から推測'}],
+unknowns:[{id:'u1',run_key:'s20260328-4',field:'duty_no',raw:'151',confidence:'中',note:'勤務表OCR未投入。後で照合。'}]};}
+let state;try{state=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')||defaultState()}catch(e){state=defaultState()}
+let parsedCache={duties:[],runs:[],unknowns:[]};
+function saveState(){state.lastUpdated=new Date().toLocaleString('ja-JP');localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll()}
+function clearAllData(){if(confirm('全部消します')){state=defaultState();saveState()}}
+function seedDemo(){state=defaultState();saveState()}
+function exportData(){const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='mitaka_bus_data.json';a.click();URL.revokeObjectURL(u)}
+function importJsonPrompt(){const raw=prompt('JSONを貼ってください');if(!raw)return;try{state=JSON.parse(raw);saveState()}catch(e){alert('JSONが不正')}}
+function nowHM(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function minutes(t){if(!t||!/^\d{1,2}:\d{2}$/.test(t))return null;const[h,m]=t.split(':').map(Number);return h*60+m}
+function flowLabel(f){return f==='departure'?'発車':f==='arrival'?'到着':'回送'}
+function esc(s){return(s??'').toString().replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function resolveRun(run){const duty=state.duties.find(d=>String(d.duty_no)===String(run.duty_no))||{};return {...run,bus_no:duty.bus_no||'',driver:duty.driver||'',sign_on_a:duty.sign_on_a||'',sign_on_b:duty.sign_on_b||'',sign_off_a:duty.sign_off_a||'',sign_off_b:duty.sign_off_b||'',unresolved_count:state.unknowns.filter(u=>u.run_key===run.run_key).length}}
+function filteredRuns(){const q=(globalSearch.value||'').toLowerCase(),win=filterWindow.value,flow=filterFlow.value,now=minutes(nowHM());return state.runs.map(resolveRun).filter(r=>{const okFlow=flow==='all'||r.flow===flow;let okWindow=true;const rt=minutes(r.time);if(win!=='all'&&now!=null&&rt!=null){const diff=rt-now;okWindow=diff>=0&&diff<=Number(win)}const blob=[r.op_date,r.time,r.stand,r.route,r.destination,r.duty_no,r.bus_no,r.driver,r.memo,r.from_route,r.from_stand].join(' ').toLowerCase();return okFlow&&okWindow&&(!q||blob.includes(q))}).sort((a,b)=>(minutes(a.time)||0)-(minutes(b.time)||0))}
+function renderMeta(){meta.textContent=`${state.op_date} / ${state.service_type} / 現在 ${nowHM()} / 更新 ${state.lastUpdated}`}
+function renderStats(){const rows=filteredRuns(),dep=rows.filter(r=>r.flow==='departure').length,arr=rows.filter(r=>r.flow==='arrival').length,dead=rows.filter(r=>r.flow==='deadhead').length;stats.innerHTML=[['表示便数',rows.length],['発車',dep],['到着',arr],['回送',dead],['勤務表件数',state.duties.length],['未確定',state.unknowns.length]].map(([a,b])=>`<div class="card" style="margin:0"><div class="small sub">${a}</div><div class="big">${b}</div></div>`).join('')}
+function cardClass(r){if(r.unresolved_count>0)return'note';if(r.status==='遅れ')return'alert';if(r.status==='やや遅れ'||r.status==='注意')return'warn';if(r.flow==='deadhead')return'gray';return''}
+function renderHome(){const rows=filteredRuns(),mode=filterView.value;if(mode==='cards'){homeBody.innerHTML=rows.map(r=>`<div class="card run-card ${cardClass(r)}"><div class="spread"><div><div class="big">${esc(r.time)}</div><div class="sub">${esc(flowLabel(r.flow))}</div></div><div class="row"><span class="tag ${r.status==='遅れ'?'alert':r.status==='やや遅れ'?'warn':'ok'}">${esc(r.status)}</span><span class="tag">${esc(r.crowd)}</span>${r.unresolved_count?`<span class="tag note">未確定 ${r.unresolved_count}</span>`:''}</div></div><div><b>${esc(r.stand)}</b>番 / ${esc(r.route)} → ${esc(r.destination)}</div><div class="small" style="margin-top:6px">duty ${esc(r.duty_no||'')} / 車両 ${esc(r.bus_no||'')} / 運転手 ${esc(r.driver||'')}</div><div class="small">前運用 ${esc(r.from_stand||'-')}番 / ${esc(r.from_route||'-')}</div><div class="small">開始 ${esc(r.sign_on_a||'')} ${esc(r.sign_on_b?'/ '+r.sign_on_b:'')} / 終了 ${esc(r.sign_off_a||'')} ${esc(r.sign_off_b?'/ '+r.sign_off_b:'')}</div><div class="small">${esc(r.memo||'')}</div></div>`).join('')||'<div class="help">該当なし</div>'}else{homeBody.innerHTML=`<div class="list-table"><table><thead><tr><th>時刻</th><th>区分</th><th>乗り場</th><th>路線</th><th>行先</th><th>duty</th><th>車両</th><th>運転手</th><th>前運用</th><th>開始</th><th>終了</th><th>状態</th><th>未確定</th><th>メモ</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.time)}</td><td>${esc(flowLabel(r.flow))}</td><td>${esc(r.stand)}</td><td>${esc(r.route)}</td><td>${esc(r.destination)}</td><td>${esc(r.duty_no||'')}</td><td>${esc(r.bus_no||'')}</td><td>${esc(r.driver||'')}</td><td>${esc(r.from_stand||'-')}番 / ${esc(r.from_route||'-')}</td><td>${esc(r.sign_on_a||'')} ${esc(r.sign_on_b?'/ '+r.sign_on_b:'')}</td><td>${esc(r.sign_off_a||'')} ${esc(r.sign_off_b?'/ '+r.sign_off_b:'')}</td><td>${esc(r.status||'')}</td><td>${r.unresolved_count||0}</td><td>${esc(r.memo||'')}</td></tr>`).join('')}</tbody></table></div>`}unknownBody.innerHTML=state.unknowns.length?`<div class="list-table"><table><thead><tr><th>便</th><th>項目</th><th>断片</th><th>確信度</th><th>メモ</th></tr></thead><tbody>${state.unknowns.map(u=>`<tr><td>${esc(u.run_key)}</td><td>${esc(u.field)}</td><td>${esc(u.raw)}</td><td>${esc(u.confidence)}</td><td>${esc(u.note)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="success">未確定なし</div>'}
+function renderSearch(){const q=(searchInput.value||'').toLowerCase();if(!q){searchBody.innerHTML='<div class="card">検索語を入れてください。</div>';return}const dutyMatches=state.duties.filter(d=>JSON.stringify(d).toLowerCase().includes(q));const runMatches=state.runs.map(resolveRun).filter(r=>JSON.stringify(r).toLowerCase().includes(q));searchBody.innerHTML=(dutyMatches.map(d=>`<div class="card"><b>duty ${esc(d.duty_no)}</b><div class="small">車両 ${esc(d.bus_no||'')} / 運転手 ${esc(d.driver||'')}</div><div class="small">開始 ${esc(d.sign_on_a||'')} ${d.sign_on_b?'/ '+esc(d.sign_on_b):''} / 終了 ${esc(d.sign_off_a||'')} ${d.sign_off_b?'/ '+esc(d.sign_off_b):''}</div></div>`).join('')+runMatches.map(r=>`<div class="card run-card ${cardClass(r)}"><b>${esc(r.time)} ${esc(flowLabel(r.flow))}</b><div>${esc(r.stand)}番 ${esc(r.route)} → ${esc(r.destination)}</div><div class="small">duty ${esc(r.duty_no||'')} / 車両 ${esc(r.bus_no||'')} / 運転手 ${esc(r.driver||'')}</div></div>`).join(''))||'<div class="card">見つかりません。</div>'}
+function populateRunSelectors(){const options=state.runs.map(r=>`<option value="${esc(r.run_key)}">${esc(r.time)} / ${esc(r.stand)}番 / ${esc(r.route)} / ${esc(r.destination)} / duty ${esc(r.duty_no||'')}</option>`).join('');editRunSelect.innerHTML=options;uRun.innerHTML=options;editDate.value=state.op_date;loadRunIntoForm()}
+function loadRunIntoForm(){const key=editRunSelect.value,r=resolveRun(state.runs.find(x=>x.run_key===key)||{});if(!r.run_key)return;eTime.value=r.time||'';eFlow.value=r.flow||'departure';eStand.value=r.stand||'';eRoute.value=r.route||'';eDest.value=r.destination||'';eDuty.value=r.duty_no||'';eFromRoute.value=r.from_route||'';eFromStand.value=r.from_stand||'';eBus.value=r.bus_no||'';eDriver.value=r.driver||'';eSignOn.value=r.sign_on_b||r.sign_on_a||'';eSignOff.value=r.sign_off_b||r.sign_off_a||'';eStatus.value=r.status||'定刻';eCrowd.value=r.crowd||'不明';eMemo.value=r.memo||''}
+function saveRunEdit(){const key=editRunSelect.value,idx=state.runs.findIndex(r=>r.run_key===key);if(idx<0)return;state.runs[idx]={...state.runs[idx],op_date:editDate.value||state.op_date,time:eTime.value,flow:eFlow.value,stand:eStand.value,route:eRoute.value,destination:eDest.value,duty_no:eDuty.value,from_route:eFromRoute.value,from_stand:eFromStand.value,status:eStatus.value,crowd:eCrowd.value,memo:eMemo.value};const dutyNo=eDuty.value;if(dutyNo){const didx=state.duties.findIndex(d=>String(d.duty_no)===String(dutyNo)),patch={duty_no:dutyNo,bus_no:eBus.value,driver:eDriver.value,sign_on_b:eSignOn.value,sign_off_b:eSignOff.value,source:'manual'};if(didx>=0)state.duties[didx]={...state.duties[didx],...patch};else state.duties.push(patch)}saveState()}
+function addUnknown(){state.unknowns.unshift({id:'u'+Date.now(),run_key:uRun.value,field:uField.value,raw:uRaw.value,confidence:uConfidence.value,note:uNote.value});uRaw.value='';uNote.value='';saveState()}
+function clearOCR(){ocrText.value='';previewDuty.textContent='';previewRuns.textContent='';parsedCache={duties:[],runs:[],unknowns:[]}}
+function normalizeTime(t){if(!t)return'';t=t.replace(/[|｜]/g,':').replace(/[^\d:]/g,'');const m=t.match(/^(\d{1,2}):?(\d{2})$/);return m?`${m[1].padStart(2,'0')}:${m[2]}`:''}
+function routeToStand(route){const map={'51':'5','52':'6','53':'2','54':'7','55':'8','56':'2','57':'3','58':'8','59':'8','60':'6','61':'7','62':'7','63':'8','65':'3','66':'3'};return map[String(route)]||''}
+function parseDutyOCR(text){const lines=text.split(/\n+/).map(s=>s.trim()).filter(Boolean),duties=[];for(let i=0;i<lines.length;i++){const line=lines[i],dm=line.match(/(?:^|\s)([1-9]\d{2})(?:\s|$)/);if(!dm)continue;const duty_no=dm[1],win=lines.slice(i,Math.min(lines.length,i+6)).join(' '),times=[...win.matchAll(/(\d{1,2}:\d{2})/g)].map(m=>normalizeTime(m[1])),bus=(win.match(/(?:\s|^)(9\d{3})(?:\s|$)/)||[,''])[1],emp=(win.match(/(0\d{4,5})[:：]/)||[,''])[1];let name='';const nm=win.match(/[:：]([^\d]{1,10})/);if(nm)name=nm[1].replace(/[^\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}A-Za-z\s]/gu,'').trim();const rec={duty_no,sign_on_a:times[0]||'',sign_on_b:times[1]||'',bus_no:bus,employee_no:emp,driver:name,sign_off_a:times[2]||'',sign_off_b:times[3]||'',source:'OCR'};if(rec.bus_no||rec.driver||rec.sign_on_a)duties.push(rec)}}const map=new Map();duties.forEach(d=>{if(!map.has(d.duty_no))map.set(d.duty_no,d)});return [...map.values()]}
+function parseTimetableOCR(text){const lines=text.split(/\n+/).map(s=>s.trim()).filter(Boolean),runs=[],unknowns=[];lines.forEach((line,idx)=>{const routeHints=[...line.matchAll(/鷹\s?(\d{2})/g)].map(m=>m[1]),dutyHints=[...line.matchAll(/(?:^|\s)([1-9]\d{2})(?:\s|$)/g)].map(m=>m[1]),timeHints=[...line.matchAll(/(\d{1,2}:\d{2})/g)].map(m=>normalizeTime(m[1]));if(timeHints.length&&routeHints.length){routeHints.forEach((route,rIdx)=>runs.push({run_key:'ocr-'+Date.now()+'-'+idx+'-'+rIdx,op_date:importDate.value,service_type:importService.value,time:timeHints[rIdx]||timeHints[0],flow:'departure',stand:routeToStand(route),route,destination:route==='53'?'新小金井駅':'調布駅北口',duty_no:dutyHints[rIdx]||dutyHints[0]||'',from_route:'',from_stand:'',status:'未確定',crowd:'不明',memo:'OCR自動取込'}))}});if(runs.length===0&&text.includes('鷹52'))unknowns.push({id:'u'+Date.now(),run_key:'',field:'timetable',raw:'黄色の鷹XXと時刻は手で追加必要',confidence:'低',note:'OCR貼り付けは勤務表中心'});return{runs,unknowns}}
+function parseOCR(){const text=ocrText.value.trim();if(!text){alert('OCRテキストを貼って');return}const dutyList=parseDutyOCR(text),runPack=parseTimetableOCR(text);parsedCache={duties:dutyList,runs:runPack.runs,unknowns:runPack.unknowns};previewDuty.textContent=dutyList.length?JSON.stringify(dutyList,null,2):'勤務表っぽい行を抽出できなかった';previewRuns.textContent=(runPack.runs.length||runPack.unknowns.length)?JSON.stringify({runs:runPack.runs,unknowns:runPack.unknowns},null,2):'時刻表っぽい行を抽出できなかった'}
+function commitParsed(){if(!parsedCache.duties.length&&!parsedCache.runs.length&&!parsedCache.unknowns.length){alert('先に解析して');return}parsedCache.duties.forEach(d=>{const i=state.duties.findIndex(x=>String(x.duty_no)===String(d.duty_no));if(i>=0)state.duties[i]={...state.duties[i],...d};else state.duties.push(d)});parsedCache.runs.forEach(r=>state.runs.push(r));parsedCache.unknowns.forEach(u=>state.unknowns.unshift(u));state.op_date=importDate.value||state.op_date;state.service_type=importService.value||state.service_type;saveState();alert('保存した')}
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));document.getElementById(btn.dataset.view).classList.remove('hidden');renderAll()}))
+editRunSelect.addEventListener('change',loadRunIntoForm);
+function renderAll(){renderMeta();renderStats();renderHome();renderSearch();populateRunSelectors();debugJson.textContent=JSON.stringify(state,null,2)}
+saveState();
+</script></body></html>
