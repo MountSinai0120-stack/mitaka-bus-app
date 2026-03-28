@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>三鷹駅南口 バス業務システム</title>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--line:#d7dce2;--text:#111827;--muted:#6b7280;--accent:#2563eb;--warn:#fff4cc;--alert:#ffe3e3;--note:#ffedd5;--ok:#e8faee}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+.app{max-width:980px;margin:0 auto;padding:12px 12px 90px}.top{position:sticky;top:0;background:rgba(245,247,250,.96);backdrop-filter:blur(8px);padding:10px 0;z-index:20}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.spread{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.title{font-size:22px;font-weight:900;margin:0}.sub{font-size:13px;color:var(--muted)}
+input,select,textarea,button{font:inherit} input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff} textarea{min-height:84px;resize:vertical}
+button{padding:10px 14px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:800} button.secondary{background:#e5e7eb;color:#111827} button.warn{background:#b45309}
+.big{font-size:30px;font-weight:900}.tag{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:800;background:#f9fafb}.ok{background:var(--ok)}.warnbg{background:var(--warn)}.alertbg{background:var(--alert)}.notebg{background:var(--note)}
+.grid{display:grid;gap:10px}.two{grid-template-columns:1fr 1fr}.three{grid-template-columns:repeat(3,1fr)} .list-table{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{padding:8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap} th{position:sticky;top:0;background:#fff;z-index:1}
+.run-card{border-left:8px solid #3b82f6}.run-card.warn{border-left-color:#f59e0b}.run-card.alert{border-left-color:#ef4444}.run-card.note{border-left-color:#f97316}.run-card.gray{border-left-color:#9ca3af}
+.tabs{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--line);background:#fff;display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:50}.tab{padding:10px 4px 12px;text-align:center;border:none;background:#fff;color:#4b5563;font-size:11px}.tab.active{color:var(--accent);font-weight:900}
+.hidden{display:none}.small{font-size:12px}.mono{font-variant-numeric:tabular-nums}.pill{display:inline-block;padding:5px 10px;border-radius:999px;background:#e0edff;border:1px solid #bfd3ff;font-size:12px;font-weight:800}
+@media(max-width:700px){.two,.three{grid-template-columns:1fr} .big{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <h1 class="title">三鷹駅南口 バス業務システム</h1>
+    <div id="meta" class="sub"></div>
+  </div>
+
+  <section id="homeView">
+    <div class="card">
+      <div class="spread">
+        <div>
+          <div class="row"><span class="pill">一覧/カード切替あり</span><span class="pill">リアルタイム更新</span></div>
+          <div class="sub" style="margin-top:8px">20分以内の 発車 / 到着 / 回送 をまとめて表示</div>
+        </div>
+        <div class="row">
+          <select id="windowMin" onchange="renderAll()" style="width:auto"><option value="20">20分</option><option value="30">30分</option><option value="60">60分</option></select>
+          <select id="flowFilter" onchange="renderAll()" style="width:auto"><option value="all">全部</option><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select>
+          <select id="viewMode" onchange="renderHome()" style="width:auto"><option value="table">一覧</option><option value="cards">カード</option></select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <input id="globalQuery" placeholder="検索: 行先 / 路線 / ダイヤ / 車両 / 運転手" oninput="renderAll()" />
+        <button class="secondary" onclick="loadBootstrap()">再読込</button>
+      </div>
+    </div>
+    <div class="card"><div class="grid three" id="stats"></div></div>
+    <div class="card"><div id="homeBody"></div></div>
+    <div class="card"><div class="spread"><b>未確定一覧</b><span class="small sub">OCRで読めなかった箇所</span></div><div id="unknownList"></div></div>
+  </section>
+
+  <section id="searchView" class="hidden">
+    <div class="card"><input id="searchQ" placeholder="行先 / 運転手 / 車両 / ダイヤ番号" oninput="renderSearch()" /></div>
+    <div id="searchBody"></div>
+  </section>
+
+  <section id="updateView" class="hidden">
+    <div class="card">
+      <b>便のリアルタイム変更</b>
+      <div class="grid two" style="margin-top:10px">
+        <div><label class="small">対象便</label><select id="editRun"></select></div>
+        <div><label class="small">運行日</label><input id="opDate" /></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">時刻</label><input id="fTime" placeholder="08:46" /></div>
+        <div><label class="small">区分</label><select id="fFlow"><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">乗り場/場所</label><input id="fStand" /></div>
+        <div><label class="small">路線</label><input id="fRoute" /></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">行先</label><input id="fDestination" /></div>
+        <div><label class="small">ダイヤ番号</label><input id="fDuty" /></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">車両番号</label><input id="fBus" /></div>
+        <div><label class="small">ナンバー</label><input id="fPlate" /></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">運転手</label><input id="fDriver" /></div>
+        <div><label class="small">状態</label><select id="fStatus"><option>定刻</option><option>やや遅れ</option><option>遅れ</option><option>注意</option><option>未確定</option></select></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">混雑</label><select id="fCrowd"><option>不明</option><option>空き</option><option>普通</option><option>やや混雑</option><option>混雑</option></select></div>
+        <div><label class="small">更新者</label><input id="fBy" value="manual" /></div>
+      </div>
+      <div><label class="small">メモ</label><textarea id="fMemo"></textarea></div>
+      <div class="row"><button onclick="submitUpdate()">変更を反映</button><button class="secondary" onclick="loadRunToForm()">選択便を読み込み</button></div>
+    </div>
+
+    <div class="card">
+      <b>未確定を追加</b>
+      <div class="grid two" style="margin-top:10px">
+        <div><label class="small">関連便</label><select id="uRun"></select></div>
+        <div><label class="small">項目</label><select id="uField"><option value="time">時刻</option><option value="duty_no">ダイヤ番号</option><option value="driver">運転手</option><option value="bus_no">車両番号</option><option value="plate_no">ナンバー</option><option value="destination">行先</option><option value="other">その他</option></select></div>
+      </div>
+      <div class="grid two">
+        <div><label class="small">読めた断片</label><input id="uRaw" /></div>
+        <div><label class="small">優先度</label><select id="uPriority"><option>高</option><option>中</option><option>低</option></select></div>
+      </div>
+      <div><label class="small">メモ</label><textarea id="uNote"></textarea></div>
+      <button class="warn" onclick="submitUnknown()">未確定として追加</button>
+    </div>
+  </section>
+
+  <section id="addView" class="hidden">
+    <div class="card">
+      <b>新しい便を追加</b>
+      <div class="sub" style="margin:8px 0">臨時の回送や差し込み便も追加できる</div>
+      <div class="grid two">
+        <div><label class="small">service_type</label><select id="nService"><option value="weekday">weekday</option><option value="saturday">saturday</option><option value="holiday">holiday</option></select></div>
+        <div><label class="small">op_date</label><input id="nOpDate" /></div>
+      </div>
+      <div class="grid two"><div><label class="small">時刻</label><input id="nTime" /></div><div><label class="small">区分</label><select id="nFlow"><option value="departure">発車</option><option value="arrival">到着</option><option value="deadhead">回送</option></select></div></div>
+      <div class="grid two"><div><label class="small">乗り場/場所</label><input id="nStand" /></div><div><label class="small">路線</label><input id="nRoute" /></div></div>
+      <div class="grid two"><div><label class="small">行先</label><input id="nDestination" /></div><div><label class="small">ダイヤ番号</label><input id="nDuty" /></div></div>
+      <div class="grid two"><div><label class="small">車両番号</label><input id="nBus" /></div><div><label class="small">ナンバー</label><input id="nPlate" /></div></div>
+      <div class="grid two"><div><label class="small">運転手</label><input id="nDriver" /></div><div><label class="small">メモ</label><input id="nMemo" /></div></div>
+      <button onclick="submitAddRun()">便を追加</button>
+    </div>
+  </section>
+
+  <section id="guideView" class="hidden">
+    <div class="card"><b>使い方</b><div class="sub" style="margin-top:8px">1. GAS_API_BASE を自分のApps ScriptウェブアプリURLに変える 2. iPhoneで開く 3. ホーム画面に追加</div></div>
+  </section>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-view="homeView">ホーム</button>
+  <button class="tab" data-view="searchView">検索</button>
+  <button class="tab" data-view="updateView">更新</button>
+  <button class="tab" data-view="addView">追加</button>
+  <button class="tab" data-view="guideView">ガイド</button>
+</nav>
+
+<script>
+const GAS_API_BASE = 'https://script.google.com/macros/s/AKfycbwegariDmj86ct8EAOPrxwD36-O6VKyAEUyKxXdSweLjufWhM45AvHV1emp3WhIogSI/execTE_YOUR_GAS_WEBAPP_URL_HERE';
+let state = { op_date:'', service_type:'saturday', runs:[], unknowns:[], guide:[] };
+let currentView = 'homeView';
+
+function qs(id){ return document.getElementById(id); }
+function esc(s){ return (s ?? '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function minutes(t){ if(!t) return 999999; const [h,m]=t.split(':').map(Number); return h*60+m; }
+function nowHM(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function flowLabel(f){ return f==='departure'?'発車':f==='arrival'?'到着':'回送'; }
+function cardClass(r){ if(r.unresolved_count>0||r.status==='未確定') return 'note'; if(r.status==='遅れ') return 'alert'; if(r.status==='注意'||r.status==='やや遅れ') return 'warn'; if(r.flow==='deadhead') return 'gray'; return ''; }
+async function apiGet(params){ const u=new URL(GAS_API_BASE); Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v)); const res=await fetch(u); return await res.json(); }
+async function apiPost(body){ const res=await fetch(GAS_API_BASE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}); return await res.json(); }
+
+async function loadBootstrap(){
+  if(!GAS_API_BASE.startsWith('http')){ alert('index.html の GAS_API_BASE をApps ScriptのURLに変えてください'); return; }
+  const today = new Date();
+  const opDate = qs('opDate').value || today.toISOString().slice(0,10);
+  const data = await apiGet({action:'bootstrap', op_date: opDate});
+  if(!data.ok){ alert(data.error||'読み込み失敗'); return; }
+  state = data;
+  qs('opDate').value = state.op_date;
+  qs('nOpDate').value = state.op_date;
+  qs('meta').textContent = `${state.op_date} / ${state.service_type} / ${nowHM()} / 取得件数 ${state.runs.length}`;
+  const opts = state.runs.map(r=>`<option value="${esc(r.run_key)}">${esc(r.time)} / ${esc(flowLabel(r.flow))} / ${esc(r.route)} / ${esc(r.destination)} / ${esc(r.duty_no)}</option>`).join('');
+  qs('editRun').innerHTML = opts; qs('uRun').innerHTML = opts;
+  loadRunToForm();
+  renderAll();
+}
+function filteredRuns(){
+  const q=(qs('globalQuery').value||'').toLowerCase(); const w=Number(qs('windowMin').value); const ff=qs('flowFilter').value; const now=minutes(nowHM());
+  return state.runs.filter(r=>{
+    const okWindow = minutes(r.time)-now >= 0 && minutes(r.time)-now <= w;
+    const okFlow = ff==='all' || r.flow===ff;
+    const blob=[r.time,r.flow,r.stand,r.route,r.destination,r.duty_no,r.bus_no,r.plate_no,r.driver,r.memo].join(' ').toLowerCase();
+    const okQ = !q || blob.includes(q);
+    return okWindow && okFlow && okQ;
+  });
+}
+function renderStats(){
+  const rows=filteredRuns();
+  const dep=rows.filter(r=>r.flow==='departure').length, arr=rows.filter(r=>r.flow==='arrival').length, dead=rows.filter(r=>r.flow==='deadhead').length, unk=state.unknowns.length;
+  qs('stats').innerHTML = [`発車|${dep}`,`到着|${arr}`,`回送|${dead}`,`未確定|${unk}`,`運行日|${state.op_date}`,`現在|${nowHM()}`].map(x=>{const[a,b]=x.split('|'); return `<div class="card" style="margin:0"><div class="small sub">${a}</div><div class="big mono">${b}</div></div>`}).join('');
+}
+function renderHome(){
+  const rows=filteredRuns();
+  if(qs('viewMode').value==='cards'){
+    qs('homeBody').innerHTML = rows.map(r=>`<div class="card run-card ${cardClass(r)}"><div class="spread"><div><div class="big mono">${esc(r.time)}</div><div class="sub">${esc(flowLabel(r.flow))}</div></div><div class="row"><span class="tag ${r.status==='遅れ'?'alertbg':r.status==='注意'?'notebg':r.status==='やや遅れ'?'warnbg':'ok'}">${esc(r.status||'定刻')}</span><span class="tag">${esc(r.crowd||'不明')}</span>${r.unresolved_count>0?`<span class="tag notebg">未確定 ${r.unresolved_count}</span>`:''}</div></div><div><b>${esc(r.stand)}</b> / ${esc(r.route)} → ${esc(r.destination)}</div><div class="sub">ダイヤ ${esc(r.duty_no||'')} / 車両 ${esc(r.bus_no||'')} / 運転手 ${esc(r.driver||'')}</div><div class="small" style="margin-top:6px">${esc(r.memo||'')}</div></div>`).join('') || '該当なし';
+  } else {
+    qs('homeBody').innerHTML = `<div class="list-table"><table><thead><tr><th>時刻</th><th>区分</th><th>場所</th><th>路線</th><th>行先</th><th>ダイヤ</th><th>車両</th><th>運転手</th><th>状態</th><th>混雑</th><th>未確定</th><th>メモ</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="mono">${esc(r.time)}</td><td>${esc(flowLabel(r.flow))}</td><td>${esc(r.stand)}</td><td>${esc(r.route)}</td><td>${esc(r.destination)}</td><td>${esc(r.duty_no||'')}</td><td>${esc(r.bus_no||'')}</td><td>${esc(r.driver||'')}</td><td>${esc(r.status||'定刻')}</td><td>${esc(r.crowd||'不明')}</td><td>${r.unresolved_count||0}</td><td>${esc(r.memo||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  qs('unknownList').innerHTML = state.unknowns.length ? `<div class="list-table"><table><thead><tr><th>便</th><th>項目</th><th>断片</th><th>優先度</th><th>メモ</th></tr></thead><tbody>${state.unknowns.map(u=>`<tr><td>${esc(u.run_key)}</td><td>${esc(u.field_name)}</td><td>${esc(u.raw_text)}</td><td>${esc(u.priority)}</td><td>${esc(u.note||'')}</td></tr>`).join('')}</tbody></table></div>` : '未確定なし';
+}
+function renderSearch(){
+  const q=(qs('searchQ').value||'').toLowerCase();
+  const guide = state.guide.filter(g=>JSON.stringify(g).toLowerCase().includes(q));
+  const runs = state.runs.filter(r=>[r.time,r.route,r.destination,r.duty_no,r.bus_no,r.driver,r.memo].join(' ').toLowerCase().includes(q));
+  qs('searchBody').innerHTML = (!q?'検索語を入れてください':
+    guide.map(g=>`<div class="card"><b>${esc(g.display_name||g.keyword)}</b><div class="small">${esc(g.spot||'')}</div><div class="sub">${esc(g.note||'')}</div></div>`).join('')+
+    runs.map(r=>`<div class="card run-card ${cardClass(r)}"><b>${esc(r.time)} ${esc(flowLabel(r.flow))}</b><div>${esc(r.route)} → ${esc(r.destination)}</div><div class="small">ダイヤ ${esc(r.duty_no||'')} / 車両 ${esc(r.bus_no||'')} / 運転手 ${esc(r.driver||'')}</div></div>`).join('')
+  ) || '見つかりません';
+}
+function loadRunToForm(){
+  const key=qs('editRun').value; const r=state.runs.find(x=>x.run_key===key); if(!r) return;
+  qs('fTime').value=r.time||''; qs('fFlow').value=r.flow||'departure'; qs('fStand').value=r.stand||''; qs('fRoute').value=r.route||''; qs('fDestination').value=r.destination||''; qs('fDuty').value=r.duty_no||''; qs('fBus').value=r.bus_no||''; qs('fPlate').value=r.plate_no||''; qs('fDriver').value=r.driver||''; qs('fStatus').value=r.status||'定刻'; qs('fCrowd').value=r.crowd||'不明'; qs('fMemo').value=r.memo||'';
+}
+async function submitUpdate(){
+  const payload={action:'update_run',op_date:qs('opDate').value,run_key:qs('editRun').value,time:qs('fTime').value,flow:qs('fFlow').value,stand:qs('fStand').value,route:qs('fRoute').value,destination:qs('fDestination').value,duty_no:qs('fDuty').value,bus_no:qs('fBus').value,plate_no:qs('fPlate').value,driver:qs('fDriver').value,status:qs('fStatus').value,crowd:qs('fCrowd').value,memo:qs('fMemo').value,updated_by:qs('fBy').value||'manual'};
+  const res=await apiPost(payload); if(!res.ok){ alert(res.error||'更新失敗'); return; } alert('変更を反映した'); await loadBootstrap();
+}
+async function submitUnknown(){
+  const payload={action:'add_unknown',op_date:qs('opDate').value,run_key:qs('uRun').value,field_name:qs('uField').value,raw_text:qs('uRaw').value,priority:qs('uPriority').value,note:qs('uNote').value};
+  const res=await apiPost(payload); if(!res.ok){ alert(res.error||'追加失敗'); return; } alert('未確定に追加した'); qs('uRaw').value=''; qs('uNote').value=''; await loadBootstrap();
+}
+async function submitAddRun(){
+  const payload={action:'add_run',service_type:qs('nService').value,op_date:qs('nOpDate').value,time:qs('nTime').value,flow:qs('nFlow').value,stand:qs('nStand').value,route:qs('nRoute').value,destination:qs('nDestination').value,duty_no:qs('nDuty').value,bus_no:qs('nBus').value,plate_no:qs('nPlate').value,driver:qs('nDriver').value,memo:qs('nMemo').value};
+  const res=await apiPost(payload); if(!res.ok){ alert(res.error||'追加失敗'); return; } alert('便を追加した'); ['nTime','nStand','nRoute','nDestination','nDuty','nBus','nPlate','nDriver','nMemo'].forEach(id=>qs(id).value=''); await loadBootstrap();
+}
+function renderAll(){ renderStats(); renderHome(); renderSearch(); }
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{ currentView=btn.dataset.view; document.querySelectorAll('section').forEach(v=>v.classList.add('hidden')); qs(currentView).classList.remove('hidden'); document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn)); }));
+qs('editRun').addEventListener('change', loadRunToForm);
+loadBootstrap();
+</script>
+</body>
+</html>
